@@ -25,7 +25,7 @@ export class GameScene extends Phaser.Scene {
   public preload(): void {
     this.load.image("asteroid", "assets/sprites/asteroid.png");
     this.load.image("ground", "assets/sprites/ground.png");
-    this.load.image("ship", "assets/sprites/ship.png");
+    this.load.image("ship", "assets/sprites/containers/glass.jpg");
     this.load.image("healthpoint", "assets/sprites/heart.png");
     this.load.image("green", "assets/particles/green.png");
     this.load.bitmapFont("score_font", "assets/fonts/pixelmania.png", "assets/fonts/pixelmania.fnt");

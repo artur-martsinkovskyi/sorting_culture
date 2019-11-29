@@ -41,34 +41,18 @@ export class Player extends Phaser.GameObjects.Image {
     this.scene.physics.world.enable(this);
     this.ownHealth = MAX_HEALTH;
 
-    const particles = this.scene.add.particles("green");
     const player = this;
 
-    const particleColl = {
-      contains(x, y) {
-        (player.scene as GameScene).asteroids.getChildren().forEach((asteroid: Phaser.GameObjects.Sprite) => {
-          const hit = (asteroid.body as Phaser.Physics.Arcade.Body).hitTest(x, y);
+    this.scene.physics.add.overlap(
+      this,
+      (this.scene as GameScene).asteroids,
+      (this.scene as GameScene).destroyAsteroid,
+      null,
+      this.scene,
+    );
 
-          if (hit) { (player.scene as GameScene).destroyAsteroid(player, asteroid); }
-
-          return hit;
-        });
-      },
-    };
-
-    this.emitter = particles.createEmitter({
-      angle: 270,
-      blendMode: "ADD",
-      deathZone: { type: "onEnter", source: particleColl },
-      gravityY: -300,
-      scale: { start: 0.8, end: 0 },
-      speed: 500,
-    } as Phaser.Types.GameObjects.Particles.ParticleEmitterConfig);
-
-    this.angle = 180;
     this.setScale(0.5);
     (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
-    this.emitter.startFollow(this);
     this.scene.physics.add.collider(this, (this.scene as GameScene).atmosphereLimit);
   }
 }

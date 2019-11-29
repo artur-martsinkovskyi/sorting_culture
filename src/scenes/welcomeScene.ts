@@ -28,7 +28,7 @@ export class WelcomeScene extends Phaser.Scene {
   public create(): void {
     this.add.image(400, 300, "sky");
 
-    this.title = this.add.bitmapText(115, 100, "title_font", "STAR\nVAGABOND", 100, 1);
+    this.title = this.add.bitmapText(115, 100, "title_font", "SORTING\nCULTURE", 100, 1);
     this.promptText = this.add.bitmapText(210, 400, "text_font", "Press ENTER to start...", 32, 1);
 
     this.startGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);

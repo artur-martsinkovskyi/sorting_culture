@@ -12,7 +12,7 @@ export class StarVagabond extends Phaser.Game {
 window.onload = () => {
   const config: Phaser.Types.Core.GameConfig = {
     backgroundColor: "#000",
-    height: 900,
+    height: 600,
     parent: "game",
     physics: {
       arcade: {
