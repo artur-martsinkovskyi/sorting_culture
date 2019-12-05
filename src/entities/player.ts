@@ -51,7 +51,7 @@ export class Player extends Phaser.GameObjects.Image {
       this.scene,
     );
 
-    this.setScale(0.5);
+    this.setScale(0.1);
     (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
     this.scene.physics.add.collider(this, (this.scene as GameScene).atmosphereLimit);
   }

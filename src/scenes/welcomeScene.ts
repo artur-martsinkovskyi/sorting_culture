@@ -1,8 +1,8 @@
 import "phaser";
 
 export class WelcomeScene extends Phaser.Scene {
-  public title: Phaser.GameObjects.BitmapText;
-  public promptText: Phaser.GameObjects.BitmapText;
+  public title: Phaser.GameObjects.Text;
+  public promptText: Phaser.GameObjects.Text;
 
   public startGameKey: Phaser.Input.Keyboard.Key;
   public muteMusicKey: Phaser.Input.Keyboard.Key;
@@ -20,16 +20,13 @@ export class WelcomeScene extends Phaser.Scene {
 
     this.load.audio("menu_theme", "assets/sound/menu.wav");
     this.load.audio("battle_theme", "assets/sound/battle.wav");
-
-    this.load.bitmapFont("title_font", "assets/fonts/potra.png", "assets/fonts/potra.fnt");
-    this.load.bitmapFont("text_font", "assets/fonts/vcr.png", "assets/fonts/vcr.fnt");
   }
 
   public create(): void {
     this.add.image(400, 300, "sky");
 
-    this.title = this.add.bitmapText(115, 100, "title_font", "SORTING\nCULTURE", 100, 1);
-    this.promptText = this.add.bitmapText(210, 400, "text_font", "Press ENTER to start...", 32, 1);
+    this.title = this.add.text(115, 100, "SORTING\nCULTURE", { fontSize: "120px", strokeThickness: 3, stroke: "#000" });
+    this.promptText = this.add.text(210, 400, "Press ENTER to start...", { fontSize: "30px", strokeThickness: 3, stroke: "#000" });
 
     this.startGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 

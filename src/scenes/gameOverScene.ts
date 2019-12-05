@@ -1,8 +1,7 @@
 import "phaser";
 
 export class GameOverScene extends Phaser.Scene {
-  public title: Phaser.GameObjects.BitmapText;
-  public promptText: Phaser.GameObjects.BitmapText;
+  public title: Phaser.GameObjects.Text;
   public startGameKey: Phaser.Input.Keyboard.Key;
   public deathSound: Phaser.Sound.HTML5AudioSound;
 
@@ -22,9 +21,7 @@ export class GameOverScene extends Phaser.Scene {
     this.deathSound = this.sound.add("death_sound") as Phaser.Sound.HTML5AudioSound;
     this.deathSound.play();
 
-    this.title = this.add.bitmapText(115, 100, "text_font", "GAME OVER", 100, 1);
-
-    this.promptText = this.add.bitmapText(200, 300, "text_font", "Press ENTER to try\n   again, wanderer...", 32, 1);
+    this.title = this.add.text(115, 100, "GAME OVER", { fontSize: "60px", strokeThickness: 3, stroke: "#000" });
 
     this.startGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
   }
