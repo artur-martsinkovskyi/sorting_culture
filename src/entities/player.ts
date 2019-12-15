@@ -26,11 +26,11 @@ export class Player extends Phaser.GameObjects.Image {
   }
 
   public goLeft(): void {
-    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-300);
+    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-360);
   }
 
   public goRight(): void {
-    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(300);
+    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(360);
   }
 
   public standStill(): void {
@@ -51,7 +51,7 @@ export class Player extends Phaser.GameObjects.Image {
       this.scene,
     );
 
-    this.setScale(0.1);
+    this.setScale(0.07);
     (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
     this.scene.physics.add.collider(this, (this.scene as GameScene).atmosphereLimit);
   }

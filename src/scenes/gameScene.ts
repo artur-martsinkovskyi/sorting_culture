@@ -2,9 +2,7 @@ import "phaser";
 import { MAX_HEALTH, Player } from "../entities/player";
 
 export class GameScene extends Phaser.Scene {
-  public scoreText: Phaser.GameObjects.BitmapText;
-
-  public battleMusic: Phaser.Sound.HTML5AudioSound;
+  public scoreText: Phaser.GameObjects.Text;
 
   public healthpoints: Phaser.GameObjects.Group;
   public asteroids: Phaser.GameObjects.Group;
@@ -13,7 +11,6 @@ export class GameScene extends Phaser.Scene {
 
   public asteroidsDestroyed: number;
 
-  public muteMusicKey: Phaser.Input.Keyboard.Key;
   public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
   constructor() {
@@ -25,25 +22,16 @@ export class GameScene extends Phaser.Scene {
   public preload(): void {
     this.load.image("asteroid", "assets/sprites/asteroid.png");
     this.load.image("ground", "assets/sprites/ground.png");
-    this.load.image("ship", "assets/sprites/containers/glass.jpg");
     this.load.image("healthpoint", "assets/sprites/heart.png");
     this.load.image("green", "assets/particles/green.png");
-    this.load.bitmapFont("score_font", "assets/fonts/pixelmania.png", "assets/fonts/pixelmania.fnt");
   }
 
-  public create(): void {
+  public create(data): void {
     this.asteroidsDestroyed = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
     this.add.image(400, 300, "sky");
 
-    this.scoreText = this.add.bitmapText(70, 16, "score_font", "0", 32);
-    this.scoreText.setLetterSpacing(15);
-    this.add.image(35, 32, "asteroid").setScale(0.4);
-
-    this.muteMusicKey = this.input.keyboard.addKey("M");
-    this.battleMusic = this.sound.add("battle_theme") as Phaser.Sound.HTML5AudioSound;
-    this.battleMusic.setMute(true);
-    this.battleMusic.play();
+    this.scoreText = this.add.text(35, 32, "0", { fontSize: "48px", strokeThickness: 3, stroke: "#000" });
 
     this.healthpoints = this.add.group({
       key: "healthpoint",
@@ -58,7 +46,7 @@ export class GameScene extends Phaser.Scene {
 
     this.atmosphereLimit.create(0, 1100, "ground").setScale(2.1).refreshBody();
     this.player = new Player({
-      key: "ship",
+      key: data.containerType,
       scene: this,
       x: 400,
       y: 810,
@@ -97,9 +85,7 @@ export class GameScene extends Phaser.Scene {
       this.player.goLeft();
     } else if (this.cursors.right.isDown) {
       this.player.goRight();
-    } else if (Phaser.Input.Keyboard.JustDown(this.muteMusicKey)) {
-      this.battleMusic.setMute(!this.battleMusic.mute);
-    } else  {
+    } else {
       this.player.standStill();
     }
   }
@@ -133,7 +119,6 @@ export class GameScene extends Phaser.Scene {
   }
 
   public goToGameOverScene(): void {
-    this.battleMusic.stop();
     this.scene.start("GameOverScene");
   }
 

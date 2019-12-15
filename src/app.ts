@@ -1,4 +1,5 @@
 import "phaser";
+import { ContainerChoiceScene } from "./scenes/containerChoiceScene";
 import { GameOverScene } from "./scenes/gameOverScene";
 import { GameScene } from "./scenes/gameScene";
 import { WelcomeScene } from "./scenes/welcomeScene";
@@ -20,7 +21,7 @@ window.onload = () => {
       },
       default: "arcade",
     },
-    scene: [WelcomeScene, GameScene, GameOverScene],
+    scene: [WelcomeScene, ContainerChoiceScene, GameScene, GameOverScene],
     title: "Star Vagabond",
     type: Phaser.AUTO,
     width: 800,
