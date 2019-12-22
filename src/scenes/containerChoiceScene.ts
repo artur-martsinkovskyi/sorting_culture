@@ -11,10 +11,10 @@ const CONTAINER_TYPES = [
   METAL,
 ];
 const TRANSLATIONS = {
-  [GLASS]: "Скло",
-  [PAPER]: "Папір",
+  [GLASS]:   "  Скло",
+  [PAPER]:   "  Папір",
   [ORGANIC]: "Органіка",
-  [METAL]: "Метал",
+  [METAL]:   " Метал",
 };
 
 export class ContainerChoiceScene extends Phaser.Scene {
@@ -43,7 +43,7 @@ export class ContainerChoiceScene extends Phaser.Scene {
     this.container = this.add.sprite(400, 350, "glass");
 
     this.containerTitle = this.add.text(
-      350,
+      300,
       460,
       TRANSLATIONS[
         CONTAINER_TYPES[
@@ -54,13 +54,27 @@ export class ContainerChoiceScene extends Phaser.Scene {
     );
     this.container.setScale(0.07);
 
+    this.add.text(
+      250,
+      460,
+      "<",
+      { fontSize: "40px", strokeThickness: 3, stroke: "#000" },
+    );
+
+    this.add.text(
+      535,
+      460,
+      ">",
+      { fontSize: "40px", strokeThickness: 3, stroke: "#000" },
+    );
+
     this.cursors = this.input.keyboard.createCursorKeys();
 
     this.title = this.add.text(
       30,
       100,
-      "ВИБЕРІТЬ\n СВІЙ ТИП КОНТЕЙНЕРА",
-      { fontSize: "40px", strokeThickness: 3, stroke: "#000" },
+      "ВИБЕРІТЬ СВІЙ ТИП КОНТЕЙНЕРА",
+      { fontSize: "35px", strokeThickness: 3, stroke: "#000" },
     );
     this.startGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
   }

@@ -176,7 +176,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   public goToGameOverScene(): void {
-    this.scene.start("GameOverScene");
+    this.scene.start("GameOverScene", { score: this.correctTrashCaught });
   }
 
 }

@@ -2,7 +2,8 @@ import "phaser";
 
 export class GameOverScene extends Phaser.Scene {
   public title: Phaser.GameObjects.Text;
-  public startGameKey: Phaser.Input.Keyboard.Key;
+  public scoreText: Phaser.GameObjects.Text;
+  public restartGameKey: Phaser.Input.Keyboard.Key;
 
   constructor() {
     super({
@@ -10,21 +11,21 @@ export class GameOverScene extends Phaser.Scene {
     });
   }
 
-  public create(): void {
+  public create(data): void {
     this.add.image(400, 300, "sky");
 
-    this.title = this.add.text(115, 100, "GAME OVER", { fontSize: "60px", strokeThickness: 3, stroke: "#000" });
-
-    this.startGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
+    this.title = this.add.text(240, 100, "GAME OVER", { fontSize: "60px", strokeThickness: 3, stroke: "#000" });
+    this.scoreText = this.add.text(400, 400, "БАЛИ: " + data.score, { fontSize: "60px", strokeThickness: 3, stroke: "#000" });
+    this.restartGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
   }
 
   public update(): void {
-    if (this.startGameKey.isDown) {
-      this.goToGameScene();
+    if (this.restartGameKey.isDown) {
+      this.goToContainerChoiceScene();
     }
   }
 
-  public goToGameScene(): void {
-    this.scene.start("GameScene");
+  public goToContainerChoiceScene(): void {
+    this.scene.start("ContainerChoiceScene");
   }
 }

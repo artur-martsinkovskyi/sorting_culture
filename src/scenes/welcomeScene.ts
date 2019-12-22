@@ -20,7 +20,12 @@ export class WelcomeScene extends Phaser.Scene {
     this.add.image(400, 300, "sky");
 
     this.title = this.add.text(115, 100, "SORTING\nCULTURE", { fontSize: "120px", strokeThickness: 3, stroke: "#000" });
-    this.promptText = this.add.text(210, 400, "Press ENTER to start...", { fontSize: "30px", strokeThickness: 3, stroke: "#000" });
+    this.promptText = this.add.text(
+      140,
+      400,
+      "Натисніть ENTER щоб почати...",
+      { fontSize: "30px", strokeThickness: 3, stroke: "#000" },
+    );
 
     this.startGameKey = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
   }
