@@ -4,7 +4,10 @@ import { GameScene } from "../scenes/gameScene";
 export const MAX_HEALTH = 5;
 
 export class Player extends Phaser.GameObjects.Image {
+  public containerType: string;
+
   private ownHealth: number;
+  private emitter: Phaser.GameObjects.Particles.ParticleEmitter;
 
   public get health(): number {
     return this.ownHealth;
@@ -16,21 +19,20 @@ export class Player extends Phaser.GameObjects.Image {
     this.scene.events.emit("healthChanged", value, this.health);
   }
 
-  private emitter: Phaser.GameObjects.Particles.ParticleEmitter;
-
   constructor(params) {
-    super(params.scene, params.x, params.y, params.key);
+    super(params.scene, params.x, params.y, params.containerType);
+    this.containerType = params.containerType;
 
     this.init();
     this.scene.add.existing(this);
   }
 
   public goLeft(): void {
-    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-360);
+    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(-400);
   }
 
   public goRight(): void {
-    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(360);
+    (this.body as Phaser.Physics.Arcade.Body).setVelocityX(400);
   }
 
   public standStill(): void {
@@ -45,13 +47,13 @@ export class Player extends Phaser.GameObjects.Image {
 
     this.scene.physics.add.overlap(
       this,
-      (this.scene as GameScene).asteroids,
-      (this.scene as GameScene).destroyAsteroid,
+      (this.scene as GameScene).trash,
+      (this.scene as GameScene).catchTrash,
       null,
       this.scene,
     );
 
-    this.setScale(0.07);
+    this.setScale(0.05);
     (this.body as Phaser.Physics.Arcade.Body).setCollideWorldBounds(true);
     this.scene.physics.add.collider(this, (this.scene as GameScene).atmosphereLimit);
   }

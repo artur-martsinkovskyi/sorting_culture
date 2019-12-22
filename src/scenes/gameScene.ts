@@ -1,15 +1,56 @@
 import "phaser";
 import { MAX_HEALTH, Player } from "../entities/player";
+const TRASH_GROUPS = {
+  glass: [
+    "bottle",
+    "bottle2",
+    "perfume",
+    "wineglass",
+  ],
+  metal: [
+    "can",
+    "foil",
+    "nut",
+    "bin",
+    "cap",
+    "fish_can",
+  ],
+  organic: [
+    "apple",
+    "broccoli",
+    "carrots",
+    "pear",
+  ],
+  paper: [
+    "bill",
+    "box",
+    "business card",
+    "copybook",
+    "newspaper",
+  ],
+};
+
+const TRASH = Object.keys(TRASH_GROUPS).map(
+  (trashType): object => {
+    return TRASH_GROUPS[trashType].reduce(
+      (memo, trashEntry) => {
+        memo[trashEntry] = trashType;
+        return memo;
+      },
+      {},
+    );
+  },
+).reduce((memo, el) => ({ ...memo, ...el}));
 
 export class GameScene extends Phaser.Scene {
   public scoreText: Phaser.GameObjects.Text;
 
   public healthpoints: Phaser.GameObjects.Group;
-  public asteroids: Phaser.GameObjects.Group;
+  public trash: Phaser.GameObjects.Group;
   public player: Player;
   public atmosphereLimit: Phaser.Physics.Arcade.StaticGroup;
 
-  public asteroidsDestroyed: number;
+  public correctTrashCaught: number;
 
   public cursors: Phaser.Types.Input.Keyboard.CursorKeys;
 
@@ -20,14 +61,23 @@ export class GameScene extends Phaser.Scene {
   }
 
   public preload(): void {
-    this.load.image("asteroid", "assets/sprites/asteroid.png");
+    for (const trashType in TRASH_GROUPS) {
+      if (Object.prototype.hasOwnProperty.call(TRASH_GROUPS, trashType)) {
+        TRASH_GROUPS[trashType].forEach(
+          (trash) => {
+            const path = "assets/sprites/" + trashType + "/" + trash + ".png";
+            this.load.image(trash, path);
+          },
+        );
+      }
+    }
     this.load.image("ground", "assets/sprites/ground.png");
     this.load.image("healthpoint", "assets/sprites/heart.png");
     this.load.image("green", "assets/particles/green.png");
   }
 
   public create(data): void {
-    this.asteroidsDestroyed = 0;
+    this.correctTrashCaught = 0;
     this.cursors = this.input.keyboard.createCursorKeys();
     this.add.image(400, 300, "sky");
 
@@ -40,13 +90,13 @@ export class GameScene extends Phaser.Scene {
     } as Phaser.Types.GameObjects.Group.GroupConfig);
 
     this.healthpoints.getChildren().forEach((el: Phaser.GameObjects.Image) => el.setScale(0.05));
-    this.asteroids = this.physics.add.group();
+    this.trash = this.physics.add.group();
 
     this.atmosphereLimit = this.physics.add.staticGroup();
 
     this.atmosphereLimit.create(0, 1100, "ground").setScale(2.1).refreshBody();
     this.player = new Player({
-      key: data.containerType,
+      containerType: data.containerType,
       scene: this,
       x: 400,
       y: 810,
@@ -76,8 +126,8 @@ export class GameScene extends Phaser.Scene {
       });
     });
 
-    this.physics.add.overlap(this.atmosphereLimit, this.asteroids, this.missAsteroid, null, this);
-    this.spawnAsteroids();
+    this.physics.add.overlap(this.atmosphereLimit, this.trash, this.missTrash, null, this);
+    this.spawnTrashEntries();
   }
 
   public update(): void {
@@ -90,32 +140,39 @@ export class GameScene extends Phaser.Scene {
     }
   }
 
-  public spawnAsteroids(): void {
-    this.spawnAsteroid(Phaser.Math.Between(100, 700), -100);
-    this.queueSpawn(Phaser.Math.Between(1000, 1500), this.spawnAsteroids);
+  public spawnTrashEntries(): void {
+    this.spawnTrash(Phaser.Math.Between(100, 700), -100);
+    this.queueSpawn(Phaser.Math.Between(1000, 1500), this.spawnTrashEntries);
   }
 
   public queueSpawn(time: number, spawner: () => void): void {
     this.time.addEvent({ delay: time, callback: spawner, callbackScope: this });
   }
 
-  public spawnAsteroid(x: number, y: number) {
-    this.asteroids.create(x, y, "asteroid").setScale(0.5);
+  public spawnTrash(x: number, y: number) {
+    const randomTrash = Object.keys(TRASH)[Math.floor(Math.random() * Object.keys(TRASH).length)];
+    this.trash.create(x, y, randomTrash).setScale(0.03);
   }
 
-  public destroyAsteroid(player, asteroid) {
-    if (!asteroid.visible) { return; }
+  public catchTrash(player, trash) {
+    if (!trash.visible) { return; }
 
-    asteroid.disableBody(true, true);
-    this.asteroidsDestroyed++;
-    this.scoreText.setText(this.asteroidsDestroyed.toString());
+    trash.disableBody(true, true);
+    if (TRASH[trash.texture.key] === this.player.containerType) {
+      this.correctTrashCaught++;
+    } else {
+      this.player.health--;
+    }
+    this.scoreText.setText(this.correctTrashCaught.toString());
   }
 
-  public missAsteroid(atmosphereLimit, asteroid) {
-    if (!asteroid.visible) { return; }
+  public missTrash(atmosphereLimit, trash) {
+    if (!trash.visible) { return; }
+    if (TRASH[trash.texture.key] === this.player.containerType) {
+      this.player.health--;
+    }
 
-    asteroid.disableBody(true, true);
-    this.player.health--;
+    trash.disableBody(true, true);
   }
 
   public goToGameOverScene(): void {
