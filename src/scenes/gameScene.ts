@@ -1,46 +1,6 @@
 import "phaser";
+import { TRASH, TRASH_GROUPS } from "../constants/trash";
 import { MAX_HEALTH, Player } from "../entities/player";
-const TRASH_GROUPS = {
-  glass: [
-    "bottle",
-    "bottle2",
-    "perfume",
-    "wineglass",
-  ],
-  metal: [
-    "can",
-    "foil",
-    "nut",
-    "bin",
-    "cap",
-    "fish_can",
-  ],
-  organic: [
-    "apple",
-    "broccoli",
-    "carrots",
-    "pear",
-  ],
-  paper: [
-    "bill",
-    "box",
-    "business card",
-    "copybook",
-    "newspaper",
-  ],
-};
-
-const TRASH = Object.keys(TRASH_GROUPS).map(
-  (trashType): object => {
-    return TRASH_GROUPS[trashType].reduce(
-      (memo, trashEntry) => {
-        memo[trashEntry] = trashType;
-        return memo;
-      },
-      {},
-    );
-  },
-).reduce((memo, el) => ({ ...memo, ...el}));
 
 export class GameScene extends Phaser.Scene {
   public scoreText: Phaser.GameObjects.Text;

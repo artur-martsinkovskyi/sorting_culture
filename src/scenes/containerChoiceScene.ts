@@ -31,13 +31,6 @@ export class ContainerChoiceScene extends Phaser.Scene {
     });
   }
 
-  public preload(): void {
-    this.load.image("glass", "assets/sprites/containers/glass.png");
-    this.load.image("paper", "assets/sprites/containers/paper.png");
-    this.load.image("organic", "assets/sprites/containers/organic.png");
-    this.load.image("metal", "assets/sprites/containers/metal.png");
-  }
-
   public create(): void {
     this.add.image(400, 300, "sky");
     this.container = this.add.sprite(400, 350, "glass");
