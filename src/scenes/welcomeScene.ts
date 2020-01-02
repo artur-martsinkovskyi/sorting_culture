@@ -33,6 +33,11 @@ export class WelcomeScene extends Phaser.Scene {
     this.load.image("paper", "assets/sprites/containers/paper.png");
     this.load.image("organic", "assets/sprites/containers/organic.png");
     this.load.image("metal", "assets/sprites/containers/metal.png");
+    this.load.image("glass_instruction", "assets/sprites/instructions/glass.png");
+    this.load.image("paper_instruction", "assets/sprites/instructions/paper.png");
+    this.load.image("organic_instruction", "assets/sprites/instructions/organic.png");
+    this.load.image("metal_instruction", "assets/sprites/instructions/metal.png");
+
     for (const trashType in TRASH_GROUPS) {
       if (Object.prototype.hasOwnProperty.call(TRASH_GROUPS, trashType)) {
         TRASH_GROUPS[trashType].forEach(
@@ -70,6 +75,6 @@ export class WelcomeScene extends Phaser.Scene {
   }
 
   public goToContainerChoiceScene(): void {
-    this.scene.start("ContainerChoiceScene");
+    this.scene.start("InstructionScene");
   }
 }

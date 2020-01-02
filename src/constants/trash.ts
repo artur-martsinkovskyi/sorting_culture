@@ -39,4 +39,3 @@ export const TRASH = Object.keys(TRASH_GROUPS).map(
     );
   },
 ).reduce((memo, el) => ({ ...memo, ...el}));
-
