@@ -108,6 +108,6 @@ export class ContainerChoiceScene extends Phaser.Scene {
   }
 
   public goToGameScene(): void {
-    this.scene.start("GameScene", { containerType: CONTAINER_TYPES[this.currentContainerIndex] });
+    this.scene.start("InstructionScene", { containerType: CONTAINER_TYPES[this.currentContainerIndex] });
   }
 }

@@ -75,6 +75,6 @@ export class WelcomeScene extends Phaser.Scene {
   }
 
   public goToContainerChoiceScene(): void {
-    this.scene.start("InstructionScene");
+    this.scene.start("ContainerChoiceScene");
   }
 }
