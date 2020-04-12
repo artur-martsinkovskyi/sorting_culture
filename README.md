@@ -1,2 +1,5 @@
-# starfall-phaser3-typescript
-A tiny game written on Phaser 3 on Typescript
+# Sorting culture
+
+An object-catching game for the Sorting Culture initiative in Ivano-Frankivsk. The initiative aims to raise awareness of waste sorting and its importance in the modern world. 
+
+This game purpose is to teach people the connection between container colors and types of waste that can be disposed into the container of an appropirate color.
